@@ -1,0 +1,30 @@
+@model User
+<h1>Welcome @Model.FirstName @Model.LastName</h1>
+<form asp-action="Message" asp-controller="Home" method="POST">
+        <!-- <span asp-validation-for="Message"></span> -->
+        <label>Post a message</label>
+        <br>
+        <textarea name="Message" placeholder="Type message..." cols="30" rows="10"></textarea>
+        <br>
+        <button>Post Message</button>
+</form>
+@foreach(var mess in @ViewBag.mess){
+        <h3>@mess.user.FirstName - @mess.CreatedAt</h3>
+        <p>@mess.Message</p>
+        <div>
+        @foreach(var com in mess.Comments){
+                <p>@com.Comment</p>
+        }
+        </div>
+        <form asp-action="Comment" asp-controller="Home" method="POST">
+                <label>Post a Comment</label>
+                <br>
+                <input type="hidden" name="msgId" value=@mess.Id>
+                <textarea name="Comment" placeholder="Type comment..." cols="50" rows="2"></textarea>
+                <br>
+                <button>Post Comment</button>
+        </form>
+}
+<form asp-action="Logout" asp-controller="Home" method="POST">
+        <input type="submit" value="Logout">
+</form>
